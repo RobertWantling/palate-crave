@@ -1,0 +1,26 @@
+{
+  "name": "palate-crave",
+  "version": "1.0.0",
+  "description": "Recipe Application",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobertWantling/palate-crave.git"
+  },
+  "author": "Robert Wantling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RobertWantling/palate-crave/issues"
+  },
+  "homepage": "https://github.com/RobertWantling/palate-crave#readme",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.9.3",
+    "parcel": "^2.9.3"
+  },
+  "dependencies": {
+    "sass": "^1.69.0"
+  }
+}
