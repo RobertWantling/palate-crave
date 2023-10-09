@@ -14,7 +14,21 @@ const showRecipe = async function() {
         // convert to JSON - json method is available on all response objects. Response object is exactly what the fetch function here returns
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-        console.log(response, data);
+        console.log(data, response);
+        // let recipe = data.data.recipe;
+        // recipes on both sides so able use destructuring
+        let { recipe } = data.data;
+        recipe = {
+            id: recipe.id,
+            title: recipe.title,
+            publisher: recipe.publisher,
+            sourceURL: recipe.source_url,
+            image: recipe.image_url,
+            servings: recipe.servings,
+            cookingTime: recipe.cooking_time,
+            ingredients: recipe.ingredients
+        };
+        console.log(recipe);
     } catch (err) {
         alert(err);
     }

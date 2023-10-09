@@ -21,7 +21,21 @@ const showRecipe = async function () {
 
     if (!response.ok) throw new Error(`${data.message} (${response.status})`);
 
-    console.log(response, data);
+    console.log(data, response);
+    // let recipe = data.data.recipe;
+    // recipes on both sides so able use destructuring
+    let { recipe } = data.data;
+    recipe = {
+      id: recipe.id,
+      title: recipe.title,
+      publisher: recipe.publisher,
+      sourceURL: recipe.source_url,
+      image: recipe.image_url,
+      servings: recipe.servings,
+      cookingTime: recipe.cooking_time,
+      ingredients: recipe.ingredients,
+    };
+    console.log(recipe);
   } catch (err) {
     alert(err);
   }
