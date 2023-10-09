@@ -20,7 +20,7 @@ html {
 
 body {
   color: #615551;
-  background-image: linear-gradient(to bottom right, #fbdb89, #f48982);
+  background-image: linear-gradient(to bottom right, #707070, #d7d7d7);
   background-repeat: no-repeat;
   background-size: cover;
   min-height: calc(100vh - 8vw);
@@ -55,7 +55,7 @@ body {
   text-transform: uppercase;
   color: #fff;
   cursor: pointer;
-  background-image: linear-gradient(to bottom right, #fbdb89, #f48982);
+  background-image: linear-gradient(to bottom right, #707070, #d7d7d7);
   border: none;
   border-radius: 10rem;
   align-items: center;
@@ -136,7 +136,7 @@ body {
 
 .btn--round {
   cursor: pointer;
-  background-image: linear-gradient(to bottom right, #fbdb89, #f48982);
+  background-image: linear-gradient(to bottom right, #707070, #d7d7d7);
   border: none;
   border-radius: 50%;
   justify-content: center;
