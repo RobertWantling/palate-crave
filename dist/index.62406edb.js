@@ -91,8 +91,6 @@ const showRecipe = async function() {
                   ${ing.description}
                   </div>
                   </li>
-            
-            
             `;
         }).join("")}    
             </ul>                                        
