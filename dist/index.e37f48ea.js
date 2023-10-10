@@ -574,9 +574,10 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"aenu9":[function(require,module,exports) {
-// import icons from '../img/icons.svg'; // parcel 1
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _webImmediateJs = require("core-js/modules/web.immediate.js");
+var _webImmediateJs = require("core-js/modules/web.immediate.js"); // need to get the recipe id from the hashkey
+var _modelJs = require("./model.js");
+// import icons from '../img/icons.svg'; // parcel 1
 var _iconsSvg = require("url:../img/icons.svg"); // parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 var _runtime = require("regenerator-runtime/runtime"); // used for polyfilling async/await
@@ -603,28 +604,15 @@ const renderSpinner = function(parentEl) {
 // make AJAX request to an API use fetch
 const showRecipe = async function() {
     try {
-        // 1) Loading recipe
+        // need to dynamically get the ID from the hash to be able to target the recipe
+        const id = window.location.hash.slice(1);
+        console.log(id);
+        // create guard clause if no id then return id
+        if (!id) return;
         renderSpinner(recipeContainer);
-        const response = await fetch("https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886");
-        // fetch will return a promise, as its in async function can then await that promise
-        // convert to JSON - json method is available on all response objects. Response object is exactly what the fetch function here returns
-        const data = await response.json();
-        if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-        console.log(data, response);
-        // let recipe = data.data.recipe;
-        // recipes on both sides so able use destructuring
-        let { recipe } = data.data;
-        recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            publisher: recipe.publisher,
-            sourceURL: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            cookingTime: recipe.cooking_time,
-            ingredients: recipe.ingredients
-        };
-        console.log(recipe);
+        // 1) Loading recipe - call function for recipe from model
+        await _modelJs.loadRecipe(id); // this is async function so will return a promise, have to await this function to avoid the promise before we can move on next step in execution
+        const { recipe } = _modelJs.state.recipe;
         // 2) Rendering recipe
         const markup = `
         <figure class="recipe__fig">
@@ -718,9 +706,18 @@ const showRecipe = async function() {
         alert(err);
     }
 };
-showRecipe();
+// showRecipe();
+// Want to listen out for the hashchange once certain recipe is clicked
+// window.addEventListener("hashchange", showRecipe);
+// If want to load recipe onto another page have to listen for the load event
+// window.addEventListener("load", showRecipe);
+// When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
+[
+    "hashchange",
+    "load"
+].forEach((event)=>window.addEventListener(event, showRecipe));
 
-},{"url:../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ"}],"loVOp":[function(require,module,exports) {
+},{"url:../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21"}],"loVOp":[function(require,module,exports) {
 module.exports = require("9bcc84ee5d265e38").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
 
 },{"9bcc84ee5d265e38":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -2617,6 +2614,43 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire41a6")
+},{}],"Y4A21":[function(require,module,exports) {
+// file for the entire model, all models; the recipe, for search, for bookmarks
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "state", ()=>state);
+parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
+const state = {
+    recipe: {}
+};
+const loadRecipe = async function(id) {
+    try {
+        const response = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
+        // fetch will return a promise, as its in async function can then await that promise
+        console.log(response);
+        // convert to JSON - json method is available on all response objects. Response object is exactly   what the fetch function here returns
+        const data = await response.json();
+        if (!response.ok) throw new Error(`${data.message} (${response.status})`);
+        console.log(data, response);
+        // let recipe = data.data.recipe;
+        // recipes on both sides so able use destructuring
+        const { recipe } = data.data;
+        state.recipe = {
+            id: recipe.id,
+            title: recipe.title,
+            publisher: recipe.publisher,
+            sourceURL: recipe.source_url,
+            image: recipe.image_url,
+            servings: recipe.servings,
+            cookingTime: recipe.cooking_time,
+            ingredients: recipe.ingredients
+        };
+        console.log(state.recipe);
+    } catch (err) {
+        alert(err);
+    }
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["aD7Zm","aenu9"], "aenu9", "parcelRequire41a6")
 
 //# sourceMappingURL=index.e37f48ea.js.map

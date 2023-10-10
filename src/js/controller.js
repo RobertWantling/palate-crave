@@ -1,3 +1,6 @@
+import * as model from "./model.js";
+import recipeView from "./views/recipeView.js";
+
 // import icons from '../img/icons.svg'; // parcel 1
 import icons from "url:../img/icons.svg"; // parcel 2
 // ensures old browsers are being supported by application
@@ -30,136 +33,36 @@ const renderSpinner = function (parentEl) {
 // make AJAX request to an API use fetch
 const showRecipe = async function () {
   try {
-    // 1) Loading recipe
+    // need to dynamically get the ID from the hash to be able to target the recipe
+    const id = window.location.hash.slice(1);
+    console.log(id);
+
+    // create guard clause if no id then return id
+    if (!id) return;
+
     renderSpinner(recipeContainer);
-    const response = await fetch(
-      "https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886"
-    );
-    // fetch will return a promise, as its in async function can then await that promise
 
-    // convert to JSON - json method is available on all response objects. Response object is exactly what the fetch function here returns
-    const data = await response.json();
-
-    if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-
-    console.log(data, response);
-    // let recipe = data.data.recipe;
-    // recipes on both sides so able use destructuring
-    let { recipe } = data.data;
-    recipe = {
-      id: recipe.id,
-      title: recipe.title,
-      publisher: recipe.publisher,
-      sourceURL: recipe.source_url,
-      image: recipe.image_url,
-      servings: recipe.servings,
-      cookingTime: recipe.cooking_time,
-      ingredients: recipe.ingredients,
-    };
-    console.log(recipe);
+    // 1) Loading recipe - call function for recipe from model
+    await model.loadRecipe(id); // this is async function so will return a promise, have to await this function to avoid the promise before we can move on next step in execution
+    const { recipe } = model.state.recipe;
 
     // 2) Rendering recipe
-    const markup = `
-        <figure class="recipe__fig">
-          <img src="${recipe.image}" alt="${
-      recipe.title
-    }" class="recipe__img" />
-          <h1 class="recipe__title">
-            <span>${recipe.title}</span>
-          </h1>
-        </figure>
-        <div class="recipe__details">
-          <div class="recipe__info">
-            <svg class="recipe__info-icon">
-              <use href="${icons}#icon-clock"></use>
-            </svg>
-            <span class="recipe__info-data recipe__info-data--minutes">${
-              recipe.cookingTime
-            }</span>
-            <span class="recipe__info-text">minutes</span>
-          </div>
-          <div class="recipe__info">
-            <svg class="recipe__info-icon">
-              <use href="${icons}#icon-users"></use>
-            </svg>
-            <span class="recipe__info-data recipe__info-data--people">${
-              recipe.servings
-            }</span>
-            <span class="recipe__info-text">servings</span>
-            <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
-                <svg>
-                  <use href="${icons}#icon-minus-circle"></use>
-                </svg>
-              </button>
-              <button class="btn--tiny btn--increase-servings">
-                <svg>
-                  <use href="${icons}#icon-plus-circle"></use>
-                </svg>
-              </button>
-            </div>
-          </div>
-          <div class="recipe__user-generated">
-            <svg>
-              <use href="${icons}#icon-user"></use>
-            </svg>
-          </div>
-          <button class="btn--round">
-            <svg class="">
-              <use href="${icons}#icon-bookmark-fill"></use>
-            </svg>
-          </button>
-        </div>
-        <div class="recipe__ingredients">
-          <h2 class="heading--2">Recipe ingredients</h2>
-          <ul class="recipe__ingredient-list">
-          ${recipe.ingredients
-            .map((ing) => {
-              return `
-                <li class="recipe__ingredient">
-                  <svg class="recipe__icon">
-                    <use href="${icons}#icon-check"></use>
-                  </svg>
-                  <div class="recipe__quantity">${ing.quantity}</div>
-                  <div class="recipe__description">
-                    <span class="recipe__unit">${ing.unit}</span>
-                  ${ing.description}
-                  </div>
-                  </li>
-            `;
-            })
-            .join("")}    
-            </ul>                                        
-          
-        </div>
-        <div class="recipe__directions">
-          <h2 class="heading--2">How to cook it</h2>
-          <p class="recipe__directions-text">
-            This recipe was carefully designed and tested by
-            <span class="recipe__publisher">${
-              recipe.publisher
-            }</span>. Please check out
-            directions at their website.
-          </p>
-          <a
-            class="btn--small recipe__btn"
-            href="${recipe.sourceURL}"
-            target="_blank"
-          >
-            <span>Directions</span>
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-right"></use>
-            </svg>
-          </a>
-        </div>
-    `;
-    // need to loop over the ingred array and for each of them should create this markup syntax
-    // before render a new markup have to get rid of the old markup - set it to nothing empty it out
-    recipeContainer.innerHTML = "";
-    recipeContainer.insertAdjacentHTML("afterbegin", markup);
+    // want to call recipeview data
+    recipeView.render(model.state.recipe);
   } catch (err) {
     alert(err);
   }
 };
+// showRecipe();
 
-showRecipe();
+// Want to listen out for the hashchange once certain recipe is clicked
+// window.addEventListener("hashchange", showRecipe);
+// If want to load recipe onto another page have to listen for the load event
+// window.addEventListener("load", showRecipe);
+
+// When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
+["hashchange", "load"].forEach((event) =>
+  window.addEventListener(event, showRecipe)
+);
+
+// need to get the recipe id from the hashkey
