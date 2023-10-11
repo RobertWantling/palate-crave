@@ -7,15 +7,17 @@ export const state = {
 export const loadRecipe = async function (id) {
   try {
     const response = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
+      // `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
+      `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc971`
+
       // "https://forkify-api.herokuapp.com/api/v2/recipes"
     );
     // fetch will return a promise, as its in async function can then await that promise
-    console.log(response);
+    // console.log(response);
     // convert to JSON - json method is available on all response objects. Response object is exactly   what the fetch function here returns
     const data = await response.json();
     if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-    console.log(data, response);
+    // console.log(data, response);
     // let recipe = data.data.recipe;
     // recipes on both sides so able use destructuring
     const { recipe } = data.data;
@@ -29,7 +31,7 @@ export const loadRecipe = async function (id) {
       cookingTime: recipe.cooking_time,
       ingredients: recipe.ingredients,
     };
-    console.log(state.recipe);
+    // console.log(state.recipe);
   } catch (err) {
     alert(err);
   }

@@ -1,23 +1,53 @@
+// import icons from '../img/icons.svg'; // parcel 1
+import icons from "url:../../img/icons.svg"; // parcel 2
+// any package import have to declare here - any import from npm no need to speicfy any path
+import { Fraction } from "fractional";
+console.log(Fraction);
+
 // file for all different views much bigger so good to seperate
 // this will contain the rest of the code - do this because later also have a parent class called view which will contain a couple of methods that all the views should inherit
 // also want to some private n public classes so makes easier with using class
 class RecipeView {
+  // these two properties and render method are what all the views will have in common
   #parentElement = document.querySelector(".recipe");
   #data;
 
+  // Public render method part of public API - this will recieve data and will set this.#data to the data it just recieved
   // this method will now be responsible for putting html onto the page
+  // THIRDLY - render method takes that data and stores it inside of this.#data - allows us to be able to use data all over the place inside the object
   render(data) {
+    // data is held in this
     this.#data = data;
-    const markup = this.#generateMarkup;
-    recipeContainer.innerHTML = "";
-    recipeContainer.insertAdjacentHTML("afterbegin", markup);
+    const markup = this.#generateMarkup();
+    // render method is responsilble for rendering anything onto the page
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
   }
-
+  // Create small method for clearing data (good hjabit of abstracting code)
   #clear() {
     this.#parentElement.innerHTML = "";
   }
 
+  // will be a public method so the controller can then call this method as it starts fetching the data
+  // use css to rotate line continuously
+  renderSpinner = function () {
+    const markup = `
+            <div class="spinner">
+                <svg>
+                <use href="${icons}#icon-loader"></use>
+                </svg>
+            </div>
+        `;
+    // as parentElement is already inside the object simple call it here
+    this.#parentElement.innerHTML = "";
+    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+  };
+
+  // this gm each view will render different HTML this method will generate the HTML so that the render method can then display that HTML on the page
+  // # private method
+  // all this function does is return a HTML string
   #generateMarkup() {
+    console.log(this.#data);
     return `
         <figure class="recipe__fig">
           <img src="${this.#data.image}" alt="${
@@ -73,20 +103,7 @@ class RecipeView {
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
           ${this.#data.ingredients
-            .map((ing) => {
-              return `
-                <li class="recipe__ingredient">
-                  <svg class="recipe__icon">
-                    <use href="${icons}#icon-check"></use>
-                  </svg>
-                  <div class="recipe__quantity">${ing.quantity}</div>
-                  <div class="recipe__description">
-                    <span class="recipe__unit">${ing.unit}</span>
-                  ${ing.description}
-                  </div>
-                  </li>
-            `;
-            })
+            .map(this.#generateMarkupIngredient)
             .join("")}    
             </ul>                                        
           
@@ -114,6 +131,23 @@ class RecipeView {
     `;
     // need to loop over the ingred array and for each of them should create this markup syntax
     // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
+  }
+
+  #generateMarkupIngredient(ing) {
+    return `
+    <li class="recipe__ingredient">
+      <svg class="recipe__icon">
+        <use href="${icons}#icon-check"></use>
+      </svg>
+      <div class="recipe__quantity">${
+        ing.quantity ? new Fraction(ing.quantity).toString() : ""
+      }</div>
+      <div class="recipe__description">
+        <span class="recipe__unit">${ing.unit}</span>
+      ${ing.description}
+      </div>
+      </li>
+`;
   }
 }
 
