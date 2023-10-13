@@ -2526,7 +2526,6 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
-var _regeneratorRuntime = require("regenerator-runtime");
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
 const state = {
@@ -2535,7 +2534,7 @@ const state = {
 const loadRecipe = async function(id) {
     try {
         // exported api from config file - data will become resolved value of getJSON promise hence why we then await that promise and store that resolved value into the data variable
-        const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}/${id}`);
+        const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}/${id}?search=${query}&key=${KEY}`);
         // `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
         // "https://forkify-api.herokuapp.com/api/v2/recipes"
         // fetch will return a promise, as its in async function can then await that promise
@@ -2564,30 +2563,29 @@ const loadRecipe = async function(id) {
     }
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
-// Going to put all the variables that should be constants and that can be re-used across the project
-// goal of having this file with all these variables will allow us to easily configure the project by simply changing some of the data that is here in this configuration file
-// The only variables needed within this file are the ones that are responsible for defining some important data about the app such as the API URL
-// API URL will be used numerous places like search data and also uploading recipe to the server
-// use of uppercase identifying that variable wont change (const) CP
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "API_URL", ()=>API_URL);
-const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./helpers.js":"hGI1E","./config.js":"k5Hzs"}],"hGI1E":[function(require,module,exports) {
 // Goal of this module is to contain a couple of functions that we can use over and over again across the project - have central place for all of them
 // CP create a function that will get JSON, a function which encapsulates const response = await fetch(`${API_URL}/${id}`);
 // const data = await response.json();
 // if (!response.ok) throw new Error(`${data.message} (${response.status})`);
 // and some error handling
-// async will do the fetching
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+const timeout = function(s) {
+    return new Promise(function(_, reject) {
+        setTimeout(function() {
+            reject(new Error(`Request took too long! Timeout after ${s} second`));
+        });
+    });
+};
 const getJSON = async function(url) {
     try {
-        const response = await fetch(url);
+        // const fetchProm = fetch(url);
+        const response = await Promise.race([
+            fetch(url),
+            timeout(5)
+        ]);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
         // now this function returns data variable means data is going to be resolved value of the pormise that the getJSON function returns
@@ -2596,6 +2594,17 @@ const getJSON = async function(url) {
         throw err;
     }
 };
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
+// Going to put all the variables that should be constants and that can be re-used across the project
+// goal of having this file with all these variables will allow us to easily configure the project by simply changing some of the data that is here in this configuration file
+// The only variables needed within this file are the ones that are responsible for defining some important data about the app such as the API URL
+// API URL will be used numerous places like search data and also uploading recipe to the server
+// use of uppercase identifying that variable wont change (const) CP
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "API_URL", ()=>API_URL);
+const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes";
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 // import icons from '../img/icons.svg'; // parcel 1

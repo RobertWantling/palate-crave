@@ -4,10 +4,19 @@
 // if (!response.ok) throw new Error(`${data.message} (${response.status})`);
 // and some error handling
 
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    });
+  });
+};
+
 // async will do the fetching
 export const getJSON = async function (url) {
   try {
-    const response = await fetch(url);
+    // const fetchProm = fetch(url);
+    const response = await Promise.race([fetch(url), timeout(5)]);
     const data = await response.json();
 
     if (!response.ok) throw new Error(`${data.message} (${response.status})`);
