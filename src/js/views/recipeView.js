@@ -2,7 +2,6 @@
 import icons from "url:../../img/icons.svg"; // parcel 2
 // any package import have to declare here - any import from npm no need to speicfy any path
 import { Fraction } from "fractional";
-console.log(Fraction);
 
 // file for all different views much bigger so good to seperate
 // this will contain the rest of the code - do this because later also have a parent class called view which will contain a couple of methods that all the views should inherit
@@ -153,3 +152,5 @@ class RecipeView {
 }
 
 export default new RecipeView();
+
+// many real world applications have two special modules that are completely independent from the rest of the architecture. These are a module for project configuation and also a module for some general helper functions that can be very helpful throughout the entire application

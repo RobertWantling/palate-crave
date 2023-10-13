@@ -2522,23 +2522,28 @@ try {
 }
 
 },{}],"Y4A21":[function(require,module,exports) {
-// file for the entire model, all models; the recipe, for search, for bookmarks
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
+var _regeneratorRuntime = require("regenerator-runtime");
+var _configJs = require("./config.js");
+var _helpersJs = require("./helpers.js");
 const state = {
     recipe: {}
 };
 const loadRecipe = async function(id) {
     try {
-        const response = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
+        // exported api from config file - data will become resolved value of getJSON promise hence why we then await that promise and store that resolved value into the data variable
+        const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}/${id}`);
+        // `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
+        // "https://forkify-api.herokuapp.com/api/v2/recipes"
         // fetch will return a promise, as its in async function can then await that promise
-        console.log(response);
+        // console.log(response);
         // convert to JSON - json method is available on all response objects. Response object is exactly   what the fetch function here returns
-        const data = await response.json();
-        if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-        console.log(data, response);
+        // const data = await response.json();
+        // if (!response.ok) throw new Error(`${data.message} (${response.status})`);
+        // console.log(data, response);
         // let recipe = data.data.recipe;
         // recipes on both sides so able use destructuring
         const { recipe } = data.data;
@@ -2554,7 +2559,41 @@ const loadRecipe = async function(id) {
         };
         console.log(state.recipe);
     } catch (err) {
-        alert(err);
+        // temp error handling
+        console.error(`🔥🔥🔥🔥🔥🔥${err}🔥🔥🔥🔥🔥🔥🔥`);
+    }
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime":"dXNgZ","./config.js":"k5Hzs","./helpers.js":"hGI1E"}],"k5Hzs":[function(require,module,exports) {
+// Going to put all the variables that should be constants and that can be re-used across the project
+// goal of having this file with all these variables will allow us to easily configure the project by simply changing some of the data that is here in this configuration file
+// The only variables needed within this file are the ones that are responsible for defining some important data about the app such as the API URL
+// API URL will be used numerous places like search data and also uploading recipe to the server
+// use of uppercase identifying that variable wont change (const) CP
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "API_URL", ()=>API_URL);
+const API_URL = `https://forkify-api.herokuapp.com/api/v2/recipes`;
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
+// Goal of this module is to contain a couple of functions that we can use over and over again across the project - have central place for all of them
+// CP create a function that will get JSON, a function which encapsulates const response = await fetch(`${API_URL}/${id}`);
+// const data = await response.json();
+// if (!response.ok) throw new Error(`${data.message} (${response.status})`);
+// and some error handling
+// async will do the fetching
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+const getJSON = async function(url) {
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        if (!response.ok) throw new Error(`${data.message} (${response.status})`);
+        // now this function returns data variable means data is going to be resolved value of the pormise that the getJSON function returns
+        return data;
+    } catch (err) {
+        throw err;
     }
 };
 
@@ -2566,7 +2605,6 @@ var _iconsSvg = require("url:../../img/icons.svg"); // parcel 2
 var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 // any package import have to declare here - any import from npm no need to speicfy any path
 var _fractional = require("fractional");
-console.log((0, _fractional.Fraction));
 // file for all different views much bigger so good to seperate
 // this will contain the rest of the code - do this because later also have a parent class called view which will contain a couple of methods that all the views should inherit
 // also want to some private n public classes so makes easier with using class
@@ -2698,7 +2736,7 @@ class RecipeView {
 `;
     }
 }
-exports.default = new RecipeView();
+exports.default = new RecipeView(); // many real world applications have two special modules that are completely independent from the rest of the architecture. These are a module for project configuation and also a module for some general helper functions that can be very helpful throughout the entire application
 
 },{"url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3SU56":[function(require,module,exports) {
 /*
