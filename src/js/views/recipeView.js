@@ -38,6 +38,8 @@ class RecipeView {
                 </svg>
             </div>
         `;
+    // need to loop over the ingred array and for each of them should create this markup syntax
+    // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
     // as parentElement is already inside the object simple call it here
     this.#parentElement.innerHTML = "";
     this.#parentElement.insertAdjacentHTML("afterbegin", markup);
@@ -129,10 +131,9 @@ class RecipeView {
           </a>
         </div>
     `;
-    // need to loop over the ingred array and for each of them should create this markup syntax
-    // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
   }
 
+  // refactored function - seperate will recieve the ingredient and call it above^^ easier to handle
   #generateMarkupIngredient(ing) {
     return `
     <li class="recipe__ingredient">

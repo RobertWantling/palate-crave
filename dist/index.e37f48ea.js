@@ -2532,14 +2532,13 @@ const state = {
 };
 const loadRecipe = async function(id) {
     try {
-        const response = await fetch(// `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
-        `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc971`);
+        const response = await fetch(`https://forkify-api.herokuapp.com/api/v2/recipes/${id}`);
         // fetch will return a promise, as its in async function can then await that promise
-        // console.log(response);
+        console.log(response);
         // convert to JSON - json method is available on all response objects. Response object is exactly   what the fetch function here returns
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
-        // console.log(data, response);
+        console.log(data, response);
         // let recipe = data.data.recipe;
         // recipes on both sides so able use destructuring
         const { recipe } = data.data;
@@ -2553,7 +2552,7 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-    // console.log(state.recipe);
+        console.log(state.recipe);
     } catch (err) {
         alert(err);
     }
@@ -2600,6 +2599,8 @@ class RecipeView {
                 </svg>
             </div>
         `;
+        // need to loop over the ingred array and for each of them should create this markup syntax
+        // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
         // as parentElement is already inside the object simple call it here
         this.#parentElement.innerHTML = "";
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
@@ -2680,9 +2681,8 @@ class RecipeView {
           </a>
         </div>
     `;
-    // need to loop over the ingred array and for each of them should create this markup syntax
-    // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
     }
+    // refactored function - seperate will recieve the ingredient and call it above^^ easier to handle
     #generateMarkupIngredient(ing) {
         return `
     <li class="recipe__ingredient">
@@ -2700,7 +2700,7 @@ class RecipeView {
 }
 exports.default = new RecipeView();
 
-},{"url:../../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","fractional":"3SU56"}],"3SU56":[function(require,module,exports) {
+},{"url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3SU56":[function(require,module,exports) {
 /*
 fraction.js
 A Javascript fraction library.

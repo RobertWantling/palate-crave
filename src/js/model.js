@@ -7,8 +7,8 @@ export const state = {
 export const loadRecipe = async function (id) {
   try {
     const response = await fetch(
+      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
       // `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886`
-      `https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc971`
 
       // "https://forkify-api.herokuapp.com/api/v2/recipes"
     );
