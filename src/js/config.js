@@ -4,3 +4,5 @@
 // API URL will be used numerous places like search data and also uploading recipe to the server
 // use of uppercase identifying that variable wont change (const) CP
 export const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes";
+
+export const TIMEOUT_SEC = 10;

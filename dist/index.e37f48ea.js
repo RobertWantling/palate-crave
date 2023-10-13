@@ -2564,14 +2564,16 @@ const loadRecipe = async function(id) {
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./helpers.js":"hGI1E","./config.js":"k5Hzs"}],"hGI1E":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getJSON", ()=>getJSON);
+var _regeneratorRuntime = require("regenerator-runtime");
+var _configJS = require("./config.JS");
 // Goal of this module is to contain a couple of functions that we can use over and over again across the project - have central place for all of them
 // CP create a function that will get JSON, a function which encapsulates const response = await fetch(`${API_URL}/${id}`);
 // const data = await response.json();
 // if (!response.ok) throw new Error(`${data.message} (${response.status})`);
 // and some error handling
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
 const timeout = function(s) {
     return new Promise(function(_, reject) {
         setTimeout(function() {
@@ -2584,7 +2586,7 @@ const getJSON = async function(url) {
         // const fetchProm = fetch(url);
         const response = await Promise.race([
             fetch(url),
-            timeout(5)
+            timeout((0, _configJS.TIMEOUT_SEC))
         ]);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
@@ -2595,6 +2597,19 @@ const getJSON = async function(url) {
     }
 };
 
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./config.JS":"2f9iU","regenerator-runtime":"dXNgZ"}],"2f9iU":[function(require,module,exports) {
+// Going to put all the variables that should be constants and that can be re-used across the project
+// goal of having this file with all these variables will allow us to easily configure the project by simply changing some of the data that is here in this configuration file
+// The only variables needed within this file are the ones that are responsible for defining some important data about the app such as the API URL
+// API URL will be used numerous places like search data and also uploading recipe to the server
+// use of uppercase identifying that variable wont change (const) CP
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "API_URL", ()=>API_URL);
+parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
+const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes";
+const TIMEOUT_SEC = 10;
+
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 // Going to put all the variables that should be constants and that can be re-used across the project
 // goal of having this file with all these variables will allow us to easily configure the project by simply changing some of the data that is here in this configuration file
@@ -2604,7 +2619,9 @@ const getJSON = async function(url) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
+parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
 const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes";
+const TIMEOUT_SEC = 10;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 // import icons from '../img/icons.svg'; // parcel 1
