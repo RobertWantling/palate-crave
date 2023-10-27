@@ -40,7 +40,7 @@ const controlRecipes = async function () {
     // same as
     // const recipeView = new recipeView(model.state.recipe)
   } catch (err) {
-    alert(err);
+    console.log(err);
   }
 };
 // controlRecipes();
@@ -50,9 +50,9 @@ const controlRecipes = async function () {
 // If want to load recipe onto another page have to listen for the load event
 // window.addEventListener("load", controlRecipes);
 
-// When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
-["hashchange", "load"].forEach((event) =>
-  window.addEventListener(event, controlRecipes)
-);
-
 // need to get the recipe id from the hashkey
+
+const init = function () {
+  recipeView.addHandlerRender(controlRecipes);
+};
+init();

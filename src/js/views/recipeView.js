@@ -44,6 +44,13 @@ class RecipeView {
     this.#parentElement.insertAdjacentHTML("afterbegin", markup);
   };
 
+  addHandlerRender(handler) {
+    // When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
+    ["hashchange", "load"].forEach((event) =>
+      window.addEventListener(event, handler)
+    );
+  }
+
   // this gm each view will render different HTML this method will generate the HTML so that the render method can then display that HTML on the page
   // # private method
   // all this function does is return a HTML string
