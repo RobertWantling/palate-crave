@@ -52,9 +52,11 @@ class RecipeView {
           <use href="${icons}g#icon-alert-triangle"></use>
         </svg>
       </div>
-        <p>No recipes have been found for your query. Please try  again!</p>
+        <p>${messgae}</p>
       </div>
     `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
   addHandlerRender(handler) {

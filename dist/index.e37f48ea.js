@@ -575,7 +575,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _webImmediateJs = require("core-js/modules/web.immediate.js"); // need to get the recipe id from the hashkey
+var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
@@ -610,7 +610,8 @@ const controlRecipes = async function() {
     // same as
     // const recipeView = new recipeView(model.state.recipe)
     } catch (err) {
-        alert(err);
+        console.log(err);
+        (0, _recipeViewJsDefault.default).renderError();
     }
 };
 // controlRecipes();
@@ -618,11 +619,11 @@ const controlRecipes = async function() {
 // window.addEventListener("hashchange", controlRecipes);
 // If want to load recipe onto another page have to listen for the load event
 // window.addEventListener("load", controlRecipes);
-// When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
-[
-    "hashchange",
-    "load"
-].forEach((event)=>window.addEventListener(event, controlRecipes));
+// need to get the recipe id from the hashkey
+const init = function() {
+    (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
+};
+init();
 
 },{"url:../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC"}],"loVOp":[function(require,module,exports) {
 module.exports = require("9bcc84ee5d265e38").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
@@ -2661,9 +2662,11 @@ class RecipeView {
           <use href="${(0, _iconsSvgDefault.default)}g#icon-alert-triangle"></use>
         </svg>
       </div>
-        <p>No recipes have been found for your query. Please try  again!</p>
+        <p>${messgae}</p>
       </div>
     `;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     addHandlerRender(handler) {
         // When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
