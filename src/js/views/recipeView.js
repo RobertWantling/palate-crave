@@ -29,7 +29,7 @@ class RecipeView {
 
   // will be a public method so the controller can then call this method as it starts fetching the data
   // use css to rotate line continuously
-  renderSpinner = function () {
+  renderSpinner() {
     const markup = `
             <div class="spinner">
                 <svg>
@@ -42,7 +42,20 @@ class RecipeView {
     // as parentElement is already inside the object simple call it here
     this.#parentElement.innerHTML = "";
     this.#parentElement.insertAdjacentHTML("afterbegin", markup);
-  };
+  }
+
+  renderError() {
+    const markup = `
+      <div class="error">
+      <div>
+        <svg>
+          <use href="${icons}g#icon-alert-triangle"></use>
+        </svg>
+      </div>
+        <p>No recipes have been found for your query. Please try  again!</p>
+      </div>
+    `;
+  }
 
   addHandlerRender(handler) {
     // When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
