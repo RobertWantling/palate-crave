@@ -610,7 +610,6 @@ const controlRecipes = async function() {
     // same as
     // const recipeView = new recipeView(model.state.recipe)
     } catch (err) {
-        console.log(err);
         (0, _recipeViewJsDefault.default).renderError();
     }
 };
@@ -2562,6 +2561,7 @@ const loadRecipe = async function(id) {
     } catch (err) {
         // temp error handling
         console.error(`🔥🔥🔥🔥🔥🔥${err}🔥🔥🔥🔥🔥🔥🔥`);
+        throw err;
     }
 };
 
