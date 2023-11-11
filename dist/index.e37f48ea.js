@@ -2644,6 +2644,7 @@ class RecipeView {
     #data;
     // the view itself now knows the msg to display
     #errorMessage = "We could not find that recipe, please try another one!";
+    #message = "";
     // Public render method part of public API - this will recieve data and will set this.#data to the data it just recieved
     // this method will now be responsible for putting html onto the page
     // THIRDLY - render method takes that data and stores it inside of this.#data - allows us to be able to use data all over the place inside the object
@@ -2683,9 +2684,23 @@ class RecipeView {
           <use href="${(0, _iconsSvgDefault.default)}g#icon-alert-triangle"></use>
         </svg>
       </div>
-        <p>${messgae}</p>
+        <p>${message}</p>
       </div>
     `;
+        this.#clear();
+        this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderMessage(message = this.#message) {
+        const markup = `
+    <div class="message">
+    <div>
+      <svg>
+        <use href="${(0, _iconsSvgDefault.default)}g#icon-smile"></use>
+      </svg>
+    </div>
+      <p>${message}</p>
+    </div>
+  `;
         this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
     }
