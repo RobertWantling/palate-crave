@@ -7,9 +7,12 @@ import { Fraction } from "fractional";
 // this will contain the rest of the code - do this because later also have a parent class called view which will contain a couple of methods that all the views should inherit
 // also want to some private n public classes so makes easier with using class
 class RecipeView {
+  // private fields
   // these two properties and render method are what all the views will have in common
   #parentElement = document.querySelector(".recipe");
   #data;
+  // the view itself now knows the msg to display
+  #errorMessage = "We could not find that recipe, please try another one!";
 
   // Public render method part of public API - this will recieve data and will set this.#data to the data it just recieved
   // this method will now be responsible for putting html onto the page
@@ -44,7 +47,7 @@ class RecipeView {
     this.#parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
-  renderError() {
+  renderError(message = this.#errorMessage) {
     const markup = `
       <div class="error">
       <div>

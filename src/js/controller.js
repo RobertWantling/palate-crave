@@ -40,6 +40,7 @@ const controlRecipes = async function () {
     // same as
     // const recipeView = new recipeView(model.state.recipe)
   } catch (err) {
+    // This error msg should be instrinsic view of the error message
     recipeView.renderError();
   }
 };
