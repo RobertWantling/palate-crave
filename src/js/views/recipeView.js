@@ -195,3 +195,32 @@ class RecipeView {
 export default new RecipeView();
 
 // many real world applications have two special modules that are completely independent from the rest of the architecture. These are a module for project configuation and also a module for some general helper functions that can be very helpful throughout the entire application
+/*
+ <div class="recipe__details">
+   <div class="recipe__info">
+     <svg class="recipe__info-icon">
+       <use href="src/img/icons.svg#icon-clock"></use>
+     </svg>
+     <span class="recipe__info-data recipe__info-data--minutes">45</span>
+     <span class="recipe__info-text">minutes</span>
+   </div>
+   <div class="recipe__info">
+     <svg class="recipe__info-icon">
+       <use href="src/img/icons.svg#icon-users"></use>
+     </svg>
+     <span class="recipe__info-data recipe__info-data--people">4</span>
+     <span class="recipe__info-text">servings</span>
+     <div class="recipe__info-buttons">
+       <button class="btn--tiny btn--increase-servings">
+         <svg>
+           <use href="src/img/icons.svg#icon-minus-circle"></use>
+         </svg>
+       </button>
+       <button class="btn--tiny btn--increase-servings">
+         <svg>
+           <use href="src/img/icons.svg#icon-plus-circle"></use>
+         </svg>
+       </button>
+     </div>
+   </div>
+   */
