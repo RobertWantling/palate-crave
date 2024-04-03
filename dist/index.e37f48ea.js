@@ -575,7 +575,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"aenu9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _webImmediateJs = require("core-js/modules/web.immediate.js");
+var _webImmediateJs = require("core-js/modules/web.immediate.js"); // need to get the recipe id from the hashkey
 var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
@@ -610,8 +610,7 @@ const controlRecipes = async function() {
     // same as
     // const recipeView = new recipeView(model.state.recipe)
     } catch (err) {
-        // This error msg should be instrinsic view of the error message
-        (0, _recipeViewJsDefault.default).renderError();
+        alert(err);
     }
 };
 // controlRecipes();
@@ -619,11 +618,11 @@ const controlRecipes = async function() {
 // window.addEventListener("hashchange", controlRecipes);
 // If want to load recipe onto another page have to listen for the load event
 // window.addEventListener("load", controlRecipes);
-// need to get the recipe id from the hashkey
-const init = function() {
-    (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
-};
-init();
+// When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
+[
+    "hashchange",
+    "load"
+].forEach((event)=>window.addEventListener(event, controlRecipes));
 
 },{"url:../img/icons.svg":"loVOp","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","core-js/modules/web.immediate.js":"49tUX","regenerator-runtime/runtime":"dXNgZ","./model.js":"Y4A21","./views/recipeView.js":"l60JC"}],"loVOp":[function(require,module,exports) {
 module.exports = require("9bcc84ee5d265e38").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
@@ -2562,7 +2561,6 @@ const loadRecipe = async function(id) {
     } catch (err) {
         // temp error handling
         console.error(`🔥🔥🔥🔥🔥🔥${err}🔥🔥🔥🔥🔥🔥🔥`);
-        throw err;
     }
 };
 
@@ -2576,20 +2574,18 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "API_URL", ()=>API_URL);
 parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
-const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
+const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes";
 const TIMEOUT_SEC = 10;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"hGI1E":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
-var _regeneratorRuntime = require("regenerator-runtime");
-var _configJS = require("./config.JS");
 // Goal of this module is to contain a couple of functions that we can use over and over again across the project - have central place for all of them
 // CP create a function that will get JSON, a function which encapsulates const response = await fetch(`${API_URL}/${id}`);
 // const data = await response.json();
 // if (!response.ok) throw new Error(`${data.message} (${response.status})`);
 // and some error handling
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getJSON", ()=>getJSON);
 const timeout = function(s) {
     return new Promise(function(_, reject) {
         setTimeout(function() {
@@ -2602,7 +2598,7 @@ const getJSON = async function(url) {
         const fetchProm = fetch(url);
         const response = await Promise.race([
             fetchProm,
-            timeout((0, _configJS.TIMEOUT_SEC))
+            timeout(0.5)
         ]);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
@@ -2612,19 +2608,6 @@ const getJSON = async function(url) {
         throw err;
     }
 };
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","regenerator-runtime":"dXNgZ","./config.JS":"2f9iU"}],"2f9iU":[function(require,module,exports) {
-// Going to put all the variables that should be constants and that can be re-used across the project
-// goal of having this file with all these variables will allow us to easily configure the project by simply changing some of the data that is here in this configuration file
-// The only variables needed within this file are the ones that are responsible for defining some important data about the app such as the API URL
-// API URL will be used numerous places like search data and also uploading recipe to the server
-// use of uppercase identifying that variable wont change (const) CP
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "API_URL", ()=>API_URL);
-parcelHelpers.export(exports, "TIMEOUT_SEC", ()=>TIMEOUT_SEC);
-const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
-const TIMEOUT_SEC = 10;
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"l60JC":[function(require,module,exports) {
 // import icons from '../img/icons.svg'; // parcel 1
@@ -2764,7 +2747,7 @@ class RecipeView {
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-          ${this.#data.ingredients.map(this.#generateMarkupIngredient).join("")}    
+          ${this.#data.ingredients?.map(this.#generateMarkupIngredient).join("")}    
             </ul>                                        
           
         </div>
@@ -2805,6 +2788,53 @@ class RecipeView {
     }
 }
 exports.default = new RecipeView(); // many real world applications have two special modules that are completely independent from the rest of the architecture. These are a module for project configuation and also a module for some general helper functions that can be very helpful throughout the entire application
+ /*
+ <div class="recipe__details">
+   <div class="recipe__info">
+     <svg class="recipe__info-icon">
+       <use href="src/img/icons.svg#icon-clock"></use>
+     </svg>
+     <span class="recipe__info-data recipe__info-data--minutes">45</span>
+     <span class="recipe__info-text">minutes</span>
+   </div>
+   <div class="recipe__info">
+     <svg class="recipe__info-icon">
+       <use href="src/img/icons.svg#icon-users"></use>
+     </svg>
+     <span class="recipe__info-data recipe__info-data--people">4</span>
+     <span class="recipe__info-text">servings</span>
+     <div class="recipe__info-buttons">
+       <button class="btn--tiny btn--increase-servings">
+         <svg>
+           <use href="src/img/icons.svg#icon-minus-circle"></use>
+         </svg>
+       </button>
+       <button class="btn--tiny btn--increase-servings">
+         <svg>
+           <use href="src/img/icons.svg#icon-plus-circle"></use>
+         </svg>
+       </button>
+     </div>
+   </div>
+         <div class="recipe__directions">
+        <h2 class="heading--2">How to cook it</h2>
+        <p class="recipe__directions-text">
+          This recipe was carefully designed and tested by
+          <span class="recipe__publisher">The Pioneer Woman</span>. Please check out
+          directions at their website.
+        </p>
+        <a
+          class="btn--small recipe__btn"
+          href="http://thepioneerwoman.com/cooking/pasta-with-tomato-cream-sauce/"
+          target="_blank"
+        >
+          <span>Directions</span>
+          <svg class="search__icon">
+            <use href="src/img/icons.svg#icon-arrow-right"></use>
+          </svg>
+        </a>
+      </div>
+   */ 
 
 },{"url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"3SU56":[function(require,module,exports) {
 /*
