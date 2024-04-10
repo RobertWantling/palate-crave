@@ -3,12 +3,12 @@ import recipeView from "./views/recipeView.js";
 import "@babel/polyfill";
 
 // import icons from '../img/icons.svg'; // parcel 1
-import icons from "url:../img/icons.svg"; // parcel 2
+// import icons from "url:../img/icons.svg"; // parcel 2
 // ensures old browsers are being supported by application
 import "core-js/stable"; // used for ployfilling everything else
 import "regenerator-runtime/runtime"; // used for polyfilling async/await
 
-const recipeContainer = document.querySelector(".recipe");
+// const recipeContainer = document.querySelector(".recipe");
 
 const timeout = function (s) {
   return new Promise(function (_, reject) {
