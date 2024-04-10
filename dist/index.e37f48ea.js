@@ -622,7 +622,7 @@ const controlRecipes = async function() {
     // const recipeView = new recipeView(model.state.recipe)
     } catch (err) {
         // This error msg should be instrinsic view of the error message
-        (0, _recipeViewJsDefault.default).renderError();
+        (0, _recipeViewJsDefault.default).renderError(`\u{1F525}\u{1F525}\u{1F525}${err}\u{1F525}\u{1F525}\u{1F525}`);
     }
 };
 // controlRecipes();

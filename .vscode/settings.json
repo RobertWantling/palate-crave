@@ -1,3 +1,44 @@
 {
   "liveServer.settings.port": 5501
 }
+
+/*
+1. If you are getting an error, read the error message, understand what it means and check in which line of code it first occured (while also checking the entire error stack trace).
+
+2. When you've identified the line of code and function that threw the error, go back, one line at a time, while logging the result of each variable / function / parameter, until you identify the root of the problem. This is a medium sized app, so while the error could be thrown in the controller, it may have originated in the model, so you might have to follow the flow of your code between multiple files.
+
+3. If you aren't getting any errors, the same principles apply. Log the result of each line of code to the console, until you've come to the line where you don't get the desired result.
+
+4. If console.log doesn't provide you with all the necessary information, use Chrome Debugger like we demonstrated in section 5.
+
+Keep in mind that if we do all the work for you, you are not actually learning anything, so I strongly suggest you invest some time & effort into this.
+
+If you really don't feel like solving this on your own, you can always compare or copy the code from the final version, which can be found HERE.
+
+-------------------------------------------------------------------------------------------------------------------
+
+Before you start any kind of troubleshooting, make sure Parcel is properly configured:
+
+Add type="module" to your script import in HTML so it looks like this: <script type="module" src="src/js/controller.js"></script>
+
+1. Remove node_modules, .parcel-cache & dist folders and clear the browser's cache
+
+2. Disable HMR (hot module replacement) if you have it enabled: if (module.hot) module.hot.accept() -> comment this line out
+
+3. Make sure your package.json file looks exactly like THIS
+
+4. Replace fractional with fracty imports / function calls as seen HERE (if you've reached that part yet)
+
+5. Remove / comment out all the polyfilling imports:
+
+
+
+import 'core-js/stable';
+import 'regenerator-runtime/runtime';
+import { async } from 'regenerator-runtime';
+
+
+6. Reinstall packages with npm i, restart the server with npm start and click on the blue link Parcel prints to the console to open the app
+
+
+*/
