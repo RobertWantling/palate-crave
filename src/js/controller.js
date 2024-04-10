@@ -1,5 +1,6 @@
 import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
+import "@babel/polyfill";
 
 // import icons from '../img/icons.svg'; // parcel 1
 import icons from "url:../img/icons.svg"; // parcel 2

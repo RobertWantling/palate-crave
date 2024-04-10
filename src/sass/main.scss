@@ -1,7 +1,9 @@
-@import 'base';
-@import 'components';
-@import 'header';
-@import 'preview';
-@import 'searchResults';
-@import 'recipe';
-@import 'upload';
+@import "base";
+@import "components";
+@import "header";
+@import "preview";
+@import "searchResults";
+@import "recipe";
+@import "upload";
+
+// open site with 'npm start' - reasoning being that used a CSS preprocesser called SASS, so the SASS files need to be transformed to CSS before it can be run by a browser along with the help from parcel
