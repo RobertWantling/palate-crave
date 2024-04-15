@@ -43,3 +43,20 @@ export const loadRecipe = async function (id) {
     throw err;
   }
 };
+
+// search results functionality - find easier to start with the data, bascially the model - start making some API calls in order to load some search results. once that works can render them on the screen and handle the actual event
+
+// create a function that will be exported so can be used by controller
+// will be performing AJAX calls so going to be async / controller will tell this function what it would search for so pass in query like string parametre which can then be plucked into the API call
+export const loadSearchResults = async function (query) {
+  try {
+    // use getjson method to fetch the data and convert it to JSON n create error if something is wrong
+    const data = await getJSON(`${API_URL}?search=${query}`);
+    console.log(data);
+  } catch (err) {
+    console.error(`🔥🔥🔥🔥🔥🔥${err}🔥🔥🔥🔥🔥🔥🔥`);
+    throw err;
+  }
+};
+
+loadSearchResults("pizza");

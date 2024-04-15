@@ -15,11 +15,13 @@ const timeout = function (s) {
   });
 };
 
-// async will do the fetching
+// async will do the fetching - make sure getJSON fucntion accepts the url argument
 export const getJSON = async (url) => {
   try {
     //const fetchProm = fetch(url);
     //const response = await Promise.race([fetchProm, timeout(TIMEOUT_SEC)]);
+
+    // then use url parametre in the fetch()
     const response = await fetch(url);
     const data = await response.json();
 
@@ -30,3 +32,19 @@ export const getJSON = async (url) => {
     throw err;
   }
 };
+
+// bug explanation
+/*   
+So, the /recipes endpoint is meant to be used either with the search parameter or with the id of a recipe, for example:
+
+https://forkify-api.herokuapp.com/api/v2/recipes?search=pizza
+
+or
+
+https://forkify-api.herokuapp.com/api/v2/recipes/5ed6604591c37cdc054bc886.
+
+Sending a request directly to the /recipes endpoint without the search query or an id should return a more meaningful response, but due to a bug in the API, it returns Http 500 (Internal Server Error) response.
+
+So, the /recipes alone shouldn't return any recipes, but it should also return a more meaningful message, and not just Http 404.
+
+*/
