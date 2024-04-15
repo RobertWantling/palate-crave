@@ -2557,13 +2557,11 @@ const timeout = function(s) {
         });
     });
 };
-const getJSON = async function(url) {
+const getJSON = async (url)=>{
     try {
-        const fetchProm = fetch(url);
-        const response = await Promise.race([
-            fetchProm,
-            timeout((0, _configJS.TIMEOUT_SEC))
-        ]);
+        //const fetchProm = fetch(url);
+        //const response = await Promise.race([fetchProm, timeout(TIMEOUT_SEC)]);
+        const response = await fetch(url);
         const data = await response.json();
         if (!response.ok) throw new Error(`${data.message} (${response.status})`);
         // now this function returns data variable means data is going to be resolved value of the pormise that the getJSON function returns
@@ -2611,9 +2609,9 @@ class RecipeView {
     render(data) {
         // data is held in this so able to use it all over application
         this.#data = data;
-        const markup = this._generateMarkup();
+        const markup = this.#generateMarkup();
         // render method is responsilble for rendering anything onto the page
-        // this.#clear();
+        this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
     }
     // Create small method for clearing data (good habit of abstracting code)
