@@ -10,14 +10,14 @@ import "regenerator-runtime/runtime"; // used for polyfilling async/await
 
 // const recipeContainer = document.querySelector(".recipe");
 
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    });
-  });
-};
-
+// const timeout = function (s) {
+// return new Promise(function (_, reject) {
+// setTimeout(function () {
+// reject(new Error(`Request took too long! Timeout after ${s} second`));
+// });
+// });
+// };
+// timeout();
 // make AJAX request to an API use fetch
 const controlRecipes = async function () {
   try {
@@ -32,13 +32,13 @@ const controlRecipes = async function () {
 
     // 1) Loading recipe - call function for recipe from model
     // FIRSTLY - the recipe is loaded here
-    await model.loadRecipe(id); // this is async function so will return a promise, have to await this function to avoid the promise before we can move on next step in execution
+    await model.loadRecipe(id); // this is async function so will return a promise, have to await this function to avoid the promise before we can move on next step in execution in this async fucntion
 
     // 2) Rendering recipe
     // SECONDLY - store recipe into the state object (model.state.recipe) then pass that data into the render method
     // want to call recipeview data
     recipeView.render(model.state.recipe);
-    // same as
+    // same as ^^ a lot cleaner and descriptive
     // const recipeView = new recipeView(model.state.recipe)
   } catch (err) {
     // This error msg should be instrinsic view of the error message

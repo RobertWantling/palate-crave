@@ -3,6 +3,7 @@ import { API_URL } from "./config.js";
 import { getJSON } from "./helpers.js";
 
 // file for the entire model, all models; the recipe, for search, for bookmarks
+// once this state is updated it will auto update in controller file as well
 export const state = {
   recipe: {},
 };

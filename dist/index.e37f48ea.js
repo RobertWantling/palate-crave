@@ -592,13 +592,14 @@ var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
 var _polyfill = require("@babel/polyfill");
 var _runtime = require("regenerator-runtime/runtime"); // used for polyfilling async/await
 // const recipeContainer = document.querySelector(".recipe");
-const timeout = function(s) {
-    return new Promise(function(_, reject) {
-        setTimeout(function() {
-            reject(new Error(`Request took too long! Timeout after ${s} second`));
-        });
-    });
-};
+// const timeout = function (s) {
+// return new Promise(function (_, reject) {
+// setTimeout(function () {
+// reject(new Error(`Request took too long! Timeout after ${s} second`));
+// });
+// });
+// };
+// timeout();
 // make AJAX request to an API use fetch
 const controlRecipes = async function() {
     try {
@@ -610,12 +611,12 @@ const controlRecipes = async function() {
         (0, _recipeViewJsDefault.default).renderSpinner();
         // 1) Loading recipe - call function for recipe from model
         // FIRSTLY - the recipe is loaded here
-        await _modelJs.loadRecipe(id); // this is async function so will return a promise, have to await this function to avoid the promise before we can move on next step in execution
+        await _modelJs.loadRecipe(id); // this is async function so will return a promise, have to await this function to avoid the promise before we can move on next step in execution in this async fucntion
         // 2) Rendering recipe
         // SECONDLY - store recipe into the state object (model.state.recipe) then pass that data into the render method
         // want to call recipeview data
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
-    // same as
+    // same as ^^ a lot cleaner and descriptive
     // const recipeView = new recipeView(model.state.recipe)
     } catch (err) {
         // This error msg should be instrinsic view of the error message
@@ -2608,14 +2609,15 @@ class RecipeView {
     // this method will now be responsible for putting html onto the page
     // THIRDLY - render method takes that data and stores it inside of this.#data - allows us to be able to use data all over the place inside the object
     render(data) {
-        // data is held in this
+        // data is held in this so able to use it all over application
         this.#data = data;
-        const markup = this.#generateMarkup();
+        const markup = this._generateMarkup();
         // render method is responsilble for rendering anything onto the page
-        this.#clear();
+        // this.#clear();
         this.#parentElement.insertAdjacentHTML("afterbegin", markup);
     }
-    // Create small method for clearing data (good hjabit of abstracting code)
+    // Create small method for clearing data (good habit of abstracting code)
+    // This method will be usable for all the views as long as the views have parentEl property like data in recipeView()
     #clear() {
         this.#parentElement.innerHTML = "";
     }

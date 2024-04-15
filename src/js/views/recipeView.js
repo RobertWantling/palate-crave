@@ -19,14 +19,15 @@ class RecipeView {
   // this method will now be responsible for putting html onto the page
   // THIRDLY - render method takes that data and stores it inside of this.#data - allows us to be able to use data all over the place inside the object
   render(data) {
-    // data is held in this
+    // data is held in this so able to use it all over application
     this.#data = data;
-    const markup = this.#generateMarkup();
+    const markup = this._generateMarkup();
     // render method is responsilble for rendering anything onto the page
-    this.#clear();
+    // this.#clear();
     this.#parentElement.insertAdjacentHTML("afterbegin", markup);
   }
-  // Create small method for clearing data (good hjabit of abstracting code)
+  // Create small method for clearing data (good habit of abstracting code)
+  // This method will be usable for all the views as long as the views have parentEl property like data in recipeView()
   #clear() {
     this.#parentElement.innerHTML = "";
   }
