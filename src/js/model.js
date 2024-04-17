@@ -56,12 +56,13 @@ export const loadRecipe = async function (id) {
 // will be performing AJAX calls so going to be async / controller will tell this function what it would search for so pass in query like string parametre which can then be plucked into the API call
 export const loadSearchResults = async function (query) {
   try {
+    state.search.query = query;
     // use getjson method to fetch the data and convert it to JSON n create error if something is wrong
     const data = await getJSON(`${API_URL}?search=${query}`);
     console.log(data);
     // take data and store it into our state / reate new objects based on data we receive from JSON call
     // this is the array of all the objects - want to create a new array that contains new objects where prop names are different
-    data.data.recipes.map((rec) => {
+    state.search.results = data.data.recipes.map((rec) => {
       // this will return a new array with new objects
       return {
         id: rec.id,
@@ -70,10 +71,9 @@ export const loadSearchResults = async function (query) {
         image: rec.image_url,
       };
     });
+    console.log(state.search.results);
   } catch (err) {
     console.error(`🔥🔥🔥🔥🔥🔥${err}🔥🔥🔥🔥🔥🔥🔥`);
     throw err;
   }
 };
-
-loadSearchResults("pizza");

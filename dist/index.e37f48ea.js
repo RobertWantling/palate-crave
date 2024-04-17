@@ -629,6 +629,17 @@ const controlRecipes = async function() {
 // If want to load recipe onto another page have to listen for the load event
 // window.addEventListener("load", controlRecipes);
 // need to get the recipe id from the hashkey
+// call search function
+const controlSearchResults = async function() {
+    try {
+        // here call the loadSearchResults we built in model
+        await _modelJs.loadSearchResults("pizza");
+        console.log(_modelJs.state.search.results);
+    } catch (err) {
+        console.log(err);
+    }
+};
+controlSearchResults();
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
 };
@@ -1917,12 +1928,13 @@ const loadRecipe = async function(id) {
 };
 const loadSearchResults = async function(query) {
     try {
+        state.search.query = query;
         // use getjson method to fetch the data and convert it to JSON n create error if something is wrong
         const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}?search=${query}`);
         console.log(data);
         // take data and store it into our state / reate new objects based on data we receive from JSON call
         // this is the array of all the objects - want to create a new array that contains new objects where prop names are different
-        data.data.recipes.map((rec)=>{
+        state.search.results = data.data.recipes.map((rec)=>{
             // this will return a new array with new objects
             return {
                 id: rec.id,
@@ -1931,12 +1943,12 @@ const loadSearchResults = async function(query) {
                 image: rec.image_url
             };
         });
+        console.log(state.search.results);
     } catch (err) {
         console.error(`\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}${err}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}`);
         throw err;
     }
 };
-loadSearchResults("pizza");
 
 },{"./config.js":"k5Hzs","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
 // Going to put all the variables that should be constants and that can be re-used across the project

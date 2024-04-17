@@ -54,6 +54,18 @@ const controlRecipes = async function () {
 
 // need to get the recipe id from the hashkey
 
+// call search function
+const controlSearchResults = async function () {
+  try {
+    // here call the loadSearchResults we built in model
+    await model.loadSearchResults("pizza");
+    console.log(model.state.search.results);
+  } catch (err) {
+    console.log(err);
+  }
+};
+controlSearchResults();
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
 };
