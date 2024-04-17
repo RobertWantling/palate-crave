@@ -3,6 +3,7 @@
 // The only variables needed within this file are the ones that are responsible for defining some important data about the app such as the API URL
 // API URL will be used numerous places like search data and also uploading recipe to the server
 // use of uppercase identifying that variable wont change (const) CP
-export const API_URL = "https://forkify-api.herokuapp.com/api/v2/recipes/";
+export const API_URL =
+  "https://api.allorigins.win/raw?url=https://forkify-api.herokuapp.com/api/v2/recipes";
 
 export const TIMEOUT_SEC = 10;

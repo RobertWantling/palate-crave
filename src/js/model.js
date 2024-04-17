@@ -1,11 +1,16 @@
-import { async } from "regenerator-runtime";
+// import { async } from "regenerator-runtime";
 import { API_URL } from "./config.js";
 import { getJSON } from "./helpers.js";
 
 // file for the entire model, all models; the recipe, for search, for bookmarks
 // once this state is updated it will auto update in controller file as well
+// store new objects in our state - this contains all the data we need in order to build the app
 export const state = {
   recipe: {},
+  search: {
+    query: "",
+    results: [],
+  },
 };
 
 // this function will not return anything, it will just change our state object above ^^ that will contain the recipe and into which the controller will then grab and take the recipe out of there (live connection between export and import)
@@ -25,6 +30,7 @@ export const loadRecipe = async function (id) {
     // console.log(data, response);
     // let recipe = data.data.recipe;
     // recipes on both sides so able use destructuring
+
     const { recipe } = data.data;
     state.recipe = {
       id: recipe.id,
@@ -53,6 +59,17 @@ export const loadSearchResults = async function (query) {
     // use getjson method to fetch the data and convert it to JSON n create error if something is wrong
     const data = await getJSON(`${API_URL}?search=${query}`);
     console.log(data);
+    // take data and store it into our state / reate new objects based on data we receive from JSON call
+    // this is the array of all the objects - want to create a new array that contains new objects where prop names are different
+    data.data.recipes.map((rec) => {
+      // this will return a new array with new objects
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image_url,
+      };
+    });
   } catch (err) {
     console.error(`🔥🔥🔥🔥🔥🔥${err}🔥🔥🔥🔥🔥🔥🔥`);
     throw err;

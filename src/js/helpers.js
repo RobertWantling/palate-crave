@@ -1,4 +1,4 @@
-import { async } from "regenerator-runtime";
+// import { async } from "regenerator-runtime";
 import { TIMEOUT_SEC } from "./config.JS";
 
 // Goal of this module is to contain a couple of functions that we can use over and over again across the project - have central place for all of them
