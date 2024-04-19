@@ -1919,7 +1919,7 @@ const loadRecipe = async function(id) {
             cookingTime: recipe.cooking_time,
             ingredients: recipe.ingredients
         };
-        console.log(state.recipe);
+    // console.log(state.recipe);
     } catch (err) {
         // temp error handling
         console.error(`\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}${err}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}`);
@@ -1943,7 +1943,7 @@ const loadSearchResults = async function(query) {
                 image: rec.image_url
             };
         });
-        console.log(state.search.results);
+    // console.log(state.search.results);
     } catch (err) {
         console.error(`\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}${err}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}\u{1F525}`);
         throw err;
