@@ -1,5 +1,6 @@
 import * as model from "./model.js";
 import recipeView from "./views/recipeView.js";
+import searchView from "./views/searchView.js";
 import "@babel/polyfill";
 
 // import icons from '../img/icons.svg'; // parcel 1
@@ -57,6 +58,8 @@ const controlRecipes = async function () {
 // call search function
 const controlSearchResults = async function () {
   try {
+    const query = searchView.getQuery();
+
     // here call the loadSearchResults we built in model
     await model.loadSearchResults("pizza");
     console.log(model.state.search.results);
