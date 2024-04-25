@@ -1,3 +1,4 @@
+import View from "./View/js";
 // import icons from '../img/icons.svg'; // parcel 1
 import icons from "url:../../img/icons.svg"; // parcel 2
 // any package import have to declare here - any import from npm no need to speicfy any path
@@ -15,21 +16,21 @@ class RecipeView {
   #errorMessage = "We could not find that recipe, please try another one!";
   #message = "";
 
-  // Public render method part of public API - this will recieve data and will set this.#data to the data it just recieved
+  // Public render method part of public API - this will recieve data and will set this._data to the data it just recieved
   // this method will now be responsible for putting html onto the page
-  // THIRDLY - render method takes that data and stores it inside of this.#data - allows us to be able to use data all over the place inside the object
+  // THIRDLY - render method takes that data and stores it inside of this._data - allows us to be able to use data all over the place inside the object
   render(data) {
     // data is held in this so able to use it all over application
-    this.#data = data;
-    const markup = this.#generateMarkup();
+    this_data = data;
+    const markup = this._generateMarkup();
     // render method is responsilble for rendering anything onto the page
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    this._clear();
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
   // Create small method for clearing data (good habit of abstracting code)
   // This method will be usable for all the views as long as the views have parentEl property like data in recipeView()
-  #clear() {
-    this.#parentElement.innerHTML = "";
+  _clear() {
+    this._parentElement.innerHTML = "";
   }
 
   // will be a public method so the controller can then call this method as it starts fetching the data
@@ -45,11 +46,11 @@ class RecipeView {
     // need to loop over the ingred array and for each of them should create this markup syntax
     // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
     // as parentElement is already inside the object simple call it here
-    this.#parentElement.innerHTML = "";
-    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    this._parentElement.innerHTML = "";
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
-  renderError(message = this.#errorMessage) {
+  renderError(message = this._errorMessage) {
     const markup = `
       <div class="error">
       <div>
@@ -60,11 +61,11 @@ class RecipeView {
         <p>${message}</p>
       </div>
     `;
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    this._clear();
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
-  renderMessage(message = this.#message) {
+  renderMessage(message = this._message) {
     const markup = `
     <div class="message">
     <div>
@@ -75,8 +76,8 @@ class RecipeView {
       <p>${message}</p>
     </div>
   `;
-    this.#clear();
-    this.#parentElement.insertAdjacentHTML("afterbegin", markup);
+    this._clear();
+    this._parentElement.insertAdjacentHTML("afterbegin", markup);
   }
 
   addHandlerRender(handler) {
@@ -89,15 +90,15 @@ class RecipeView {
   // this gm each view will render different HTML this method will generate the HTML so that the render method can then display that HTML on the page
   // # private method
   // all this function does is return a HTML string
-  #generateMarkup() {
-    console.log(this.#data);
+  _generateMarkup() {
+    console.log(this._data);
     return `
         <figure class="recipe__fig">
-          <img src="${this.#data.image}" alt="${
-      this.#data.title
+          <img src="${this._data.image}" alt="${
+      this._data.title
     }" class="recipe__img" />
           <h1 class="recipe__title">
-            <span>${this.#data.title}</span>
+            <span>${this._data.title}</span>
           </h1>
         </figure>
         <div class="recipe__details">
@@ -106,7 +107,7 @@ class RecipeView {
               <use href="${icons}#icon-clock"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--minutes">${
-              this.#data.cookingTime
+              this._data.cookingTime
             }</span>
             <span class="recipe__info-text">minutes</span>
           </div>
@@ -115,7 +116,7 @@ class RecipeView {
               <use href="${icons}#icon-users"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">${
-              this.#data.servings
+              this._data.servings
             }</span>
             <span class="recipe__info-text">servings</span>
             <div class="recipe__info-buttons">
@@ -145,8 +146,8 @@ class RecipeView {
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
-          ${this.#data.ingredients
-            ?.map(this.#generateMarkupIngredient)
+          ${this._data.ingredients
+            ?.map(this._generateMarkupIngredient)
             .join("")}    
             </ul>                                        
           
@@ -156,13 +157,13 @@ class RecipeView {
           <p class="recipe__directions-text">
             This recipe was carefully designed and tested by
             <span class="recipe__publisher">${
-              this.#data.publisher
+              this._data.publisher
             }</span>. Please check out
             directions at their website.
           </p>
           <a
             class="btn--small recipe__btn"
-            href="${this.#data.sourceURL}"
+            href="${this._data.sourceURL}"
             target="_blank"
           >
             <span>Directions</span>
@@ -175,7 +176,7 @@ class RecipeView {
   }
 
   // refactored function - seperate will recieve the ingredient and call it above^^ easier to handle
-  #generateMarkupIngredient(ing) {
+  _generateMarkupIngredient(ing) {
     return `
     <li class="recipe__ingredient">
       <svg class="recipe__icon">
