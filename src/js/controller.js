@@ -60,6 +60,8 @@ const controlSearchResults = async function () {
   try {
     const query = searchView.getQuery();
 
+    if (!query) return;
+
     // here call the loadSearchResults we built in model
     await model.loadSearchResults("pizza");
     console.log(model.state.search.results);

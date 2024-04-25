@@ -589,6 +589,8 @@ var _webImmediateJs = require("core-js/modules/web.immediate.js");
 var _modelJs = require("./model.js");
 var _recipeViewJs = require("./views/recipeView.js");
 var _recipeViewJsDefault = parcelHelpers.interopDefault(_recipeViewJs);
+var _searchViewJs = require("./views/searchView.js");
+var _searchViewJsDefault = parcelHelpers.interopDefault(_searchViewJs);
 var _polyfill = require("@babel/polyfill");
 var _runtime = require("regenerator-runtime/runtime"); // used for polyfilling async/await
 // const recipeContainer = document.querySelector(".recipe");
@@ -632,6 +634,8 @@ const controlRecipes = async function() {
 // call search function
 const controlSearchResults = async function() {
     try {
+        const query = (0, _searchViewJsDefault.default).getQuery();
+        if (!query) return;
         // here call the loadSearchResults we built in model
         await _modelJs.loadSearchResults("pizza");
         console.log(_modelJs.state.search.results);
@@ -645,7 +649,7 @@ const init = function() {
 };
 init();
 
-},{"core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@babel/polyfill":"dTCHC","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"49tUX":[function(require,module,exports) {
+},{"core-js/modules/web.immediate.js":"49tUX","./model.js":"Y4A21","./views/recipeView.js":"l60JC","@babel/polyfill":"dTCHC","regenerator-runtime/runtime":"dXNgZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./views/searchView.js":"9OQAM"}],"49tUX":[function(require,module,exports) {
 "use strict";
 // TODO: Remove this module from `core-js@4` since it's split to modules listed below
 require("52e9b3eefbbce1ed");
@@ -10140,6 +10144,21 @@ try {
     else Function("r", "regeneratorRuntime = r")(runtime);
 }
 
-},{}]},["hycaY","aenu9"], "aenu9", "parcelRequire41a6")
+},{}],"9OQAM":[function(require,module,exports) {
+// want to get query from the search field from the input - and want process of loading search results only when the button is clicked
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+class SearchView {
+    // create parent el like recipeView and then target search form
+    #parentEl = document.querySelector(".search");
+    // this is concenred with the DOM so no need to be in the controller
+    getQuery() {
+        return this.#parentEl.querySelector(".search__field").value;
+    }
+}
+// export an instnace the object that was created by the class ^^
+exports.default = new SearchView(); // view to render the results
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["hycaY","aenu9"], "aenu9", "parcelRequire41a6")
 
 //# sourceMappingURL=index.e37f48ea.js.map
