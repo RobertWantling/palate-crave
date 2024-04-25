@@ -631,21 +631,27 @@ const controlRecipes = async function() {
 // If want to load recipe onto another page have to listen for the load event
 // window.addEventListener("load", controlRecipes);
 // need to get the recipe id from the hashkey
+// this controller function runs right at the beginning when application loads, for it to work need to listen for the event of basically clicking the search button or submitting a form. and only then will we want to call this controller funciton. Not in the beginning when the script loads
 // call search function
 const controlSearchResults = async function() {
     try {
+        // 1) get search query
         const query = (0, _searchViewJsDefault.default).getQuery();
+        // guard clause so if no query return immediately
         if (!query) return;
+        // 2) load search results
         // here call the loadSearchResults we built in model
-        await _modelJs.loadSearchResults("pizza");
+        await _modelJs.loadSearchResults(query);
+        // 3) render results
         console.log(_modelJs.state.search.results);
     } catch (err) {
         console.log(err);
     }
 };
-controlSearchResults();
+// call function using publisher subscriber pattern - so will listen for the event in the searchView, then pass the controller function (handler function) into the method that we will build in searchView (addHandlerSearch)
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
+    (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults); // pass in the controller function from searchView
 };
 init();
 
@@ -10152,8 +10158,25 @@ class SearchView {
     // create parent el like recipeView and then target search form
     #parentEl = document.querySelector(".search");
     // this is concenred with the DOM so no need to be in the controller
+    // make it much easier to add features in the future
     getQuery() {
-        return this.#parentEl.querySelector(".search__field").value;
+        const query = this.#parentEl.querySelector(".search__field").value;
+        this.#clearInput();
+        return query;
+    }
+    // clear the form after search
+    #clearInput() {
+        this.#parentEl.querySelector(".search__field").value = "";
+    }
+    // this will be the publisher and the control search results function will be the subscriber
+    addHandlerSearch(handler) {
+        // add event listener to the entire form and not just button (use submit event - works with enter and submit press)
+        this.#parentEl.addEventListener("submit", function(e) {
+            // need first prevent default action otherwise page is going to reload
+            e.preventDefault();
+            // then call handler function - know that this should be the control searchResults function - have to now call this method and pass in that function
+            handler();
+        });
     }
 }
 // export an instnace the object that was created by the class ^^

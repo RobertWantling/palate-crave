@@ -55,23 +55,30 @@ const controlRecipes = async function () {
 
 // need to get the recipe id from the hashkey
 
+// this controller function runs right at the beginning when application loads, for it to work need to listen for the event of basically clicking the search button or submitting a form. and only then will we want to call this controller funciton. Not in the beginning when the script loads
 // call search function
 const controlSearchResults = async function () {
   try {
+    // 1) get search query
     const query = searchView.getQuery();
-
+    // guard clause so if no query return immediately
     if (!query) return;
 
+    // 2) load search results
     // here call the loadSearchResults we built in model
-    await model.loadSearchResults("pizza");
+    await model.loadSearchResults(query);
+
+    // 3) render results
     console.log(model.state.search.results);
   } catch (err) {
     console.log(err);
   }
 };
-controlSearchResults();
+
+// call function using publisher subscriber pattern - so will listen for the event in the searchView, then pass the controller function (handler function) into the method that we will build in searchView (addHandlerSearch)
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchResults); // pass in the controller function from searchView
 };
 init();
