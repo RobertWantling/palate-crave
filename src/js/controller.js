@@ -75,6 +75,8 @@ const controlSearchResults = async function () {
   }
 };
 
+// results view needs a render method, that takes in data and then renders to UI
+
 // call function using publisher subscriber pattern - so will listen for the event in the searchView, then pass the controller function (handler function) into the method that we will build in searchView (addHandlerSearch)
 
 const init = function () {

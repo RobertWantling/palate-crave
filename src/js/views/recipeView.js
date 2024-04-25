@@ -243,3 +243,5 @@ export default new RecipeView();
         </a>
       </div>
    */
+
+// going to create a parent class - be able to resuse all of these methods on all the views, on all the objects that are created through all the view classes

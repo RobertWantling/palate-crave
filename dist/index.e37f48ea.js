@@ -648,6 +648,7 @@ const controlSearchResults = async function() {
         console.log(err);
     }
 };
+// results view needs a render method, that takes in data and then renders to UI
 // call function using publisher subscriber pattern - so will listen for the event in the searchView, then pass the controller function (handler function) into the method that we will build in searchView (addHandlerSearch)
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
@@ -2289,7 +2290,7 @@ exports.default = new RecipeView(); // many real world applications have two spe
           </svg>
         </a>
       </div>
-   */ 
+   */  // going to create a parent class - be able to resuse all of these methods on all the views, on all the objects that are created through all the view classes
 
 },{"url:../../img/icons.svg":"loVOp","fractional":"3SU56","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"loVOp":[function(require,module,exports) {
 module.exports = require("9bcc84ee5d265e38").getBundleURL("hWUTQ") + "icons.dfd7a6db.svg" + "?" + Date.now();
