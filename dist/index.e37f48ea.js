@@ -2077,74 +2077,13 @@ var _fractional = require("fractional");
 // file for all different views much bigger so good to seperate
 // this will contain the rest of the code - do this because later also have a parent class called view which will contain a couple of methods that all the views should inherit
 // also want to some private n public classes so makes easier with using class
-class RecipeView {
+class RecipeView extends (0, _viewJsDefault.default) {
     // private fields
     // these two properties and render method are what all the views will have in common
     _parentElement = document.querySelector(".recipe");
-    _data;
     // the view itself now knows the msg to display
     _errorMessage = "We could not find that recipe, please try another one!";
-    #message = "";
-    // Public render method part of public API - this will recieve data and will set this._data to the data it just recieved
-    // this method will now be responsible for putting html onto the page
-    // THIRDLY - render method takes that data and stores it inside of this._data - allows us to be able to use data all over the place inside the object
-    render(data) {
-        // data is held in this so able to use it all over application
-        this_data = data;
-        const markup = this._generateMarkup();
-        // render method is responsilble for rendering anything onto the page
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    // Create small method for clearing data (good habit of abstracting code)
-    // This method will be usable for all the views as long as the views have parentEl property like data in recipeView()
-    _clear() {
-        this._parentElement.innerHTML = "";
-    }
-    // will be a public method so the controller can then call this method as it starts fetching the data
-    // use css to rotate line continuously
-    renderSpinner() {
-        const markup = `
-            <div class="spinner">
-                <svg>
-                <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
-                </svg>
-            </div>
-        `;
-        // need to loop over the ingred array and for each of them should create this markup syntax
-        // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
-        // as parentElement is already inside the object simple call it here
-        this._parentElement.innerHTML = "";
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    renderError(message = this._errorMessage) {
-        const markup = `
-      <div class="error">
-      <div>
-        <svg>
-          <use href="${(0, _iconsSvgDefault.default)}g#icon-alert-triangle"></use>
-        </svg>
-      </div>
-        <p>${message}</p>
-      </div>
-    `;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
-    renderMessage(message = this._message) {
-        const markup = `
-    <div class="message">
-    <div>
-      <svg>
-        <use href="${(0, _iconsSvgDefault.default)}g#icon-smile"></use>
-      </svg>
-    </div>
-      <p>${message}</p>
-    </div>
-  `;
-        this._clear();
-        this._parentElement.insertAdjacentHTML("afterbegin", markup);
-    }
+    _message = "";
     addHandlerRender(handler) {
         // When have numerous events that wanted to run the same event handler function -  create array with events then loop over the array and do something
         [
@@ -2588,11 +2527,75 @@ module.exports.Fraction = Fraction;
 },{}],"5cUXS":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+var _iconsSvg = require("url:../../img/icons.svg"); // parcel 2
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class View {
+    _data;
+    // Public render method part of public API - this will recieve data and will set this._data to the data it just recieved
+    // this method will now be responsible for putting html onto the
+    page;
+    // THIRDLY - render method takes that data and stores it inside of this._data - allows us to be able to use data all over the place inside the object
+    render(data) {
+        // data is held in this so able to use it all over application
+        this._data = data;
+        const markup = this._generateMarkup();
+        // render method is responsilble for rendering anything onto the page
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    // Create small method for clearing data (good habit of abstracting code)
+    // This method will be usable for all the views as long as the views have parentEl property like data in recipeView()
+    _clear() {
+        this._parentElement.innerHTML = "";
+    }
+    // will be a public method so the controller can then call this method as it starts fetching the data
+    // use css to rotate line continuously
+    renderSpinner() {
+        const markup = `
+            <div class="spinner">
+                <svg>
+                <use href="${(0, _iconsSvgDefault.default)}#icon-loader"></use>
+                </svg>
+            </div>
+        `;
+        // need to loop over the ingred array and for each of them should create this markup syntax
+        // before render a new markup have to get rid of the old markup - set it to nothing empty it out;
+        // as parentElement is already inside the object simple call it here
+        this._parentElement.innerHTML = "";
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderError(message = this._errorMessage) {
+        const markup = `
+      <div class="error">
+      <div>
+        <svg>
+          <use href="${(0, _iconsSvgDefault.default)}g#icon-alert-triangle"></use>
+        </svg>
+      </div>
+        <p>${message}</p>
+      </div>
+    `;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
+    renderMessage(message = this._message) {
+        const markup = `
+    <div class="message">
+    <div>
+      <svg>
+        <use href="${(0, _iconsSvgDefault.default)}g#icon-smile"></use>
+      </svg>
+    </div>
+      <p>${message}</p>
+    </div>
+  `;
+        this._clear();
+        this._parentElement.insertAdjacentHTML("afterbegin", markup);
+    }
 }
 exports.default = View;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dTCHC":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","url:../../img/icons.svg":"loVOp"}],"dTCHC":[function(require,module,exports) {
 "use strict";
 require("f50de0aa433a589b");
 var _global = _interopRequireDefault(require("4142986752a079d4"));
@@ -10166,22 +10169,22 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 class SearchView {
     // create parent el like recipeView and then target search form
-    #parentEl = document.querySelector(".search");
+    _parentEl = document.querySelector(".search");
     // this is concenred with the DOM so no need to be in the controller
     // make it much easier to add features in the future
     getQuery() {
-        const query = this.#parentEl.querySelector(".search__field").value;
-        this.#clearInput();
+        const query = this._parentEl.querySelector(".search__field").value;
+        this._clearInput();
         return query;
     }
     // clear the form after search
-    #clearInput() {
-        this.#parentEl.querySelector(".search__field").value = "";
+    _clearInput() {
+        this._parentEl.querySelector(".search__field").value = "";
     }
     // this will be the publisher and the control search results function will be the subscriber
     addHandlerSearch(handler) {
         // add event listener to the entire form and not just button (use submit event - works with enter and submit press)
-        this.#parentEl.addEventListener("submit", function(e) {
+        this._parentEl.addEventListener("submit", function(e) {
             // need first prevent default action otherwise page is going to reload
             e.preventDefault();
             // then call handler function - know that this should be the control searchResults function - have to now call this method and pass in that function
