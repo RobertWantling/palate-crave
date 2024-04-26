@@ -1,4 +1,4 @@
-import View from "./View/js";
+import View from "./View.js";
 // import icons from '../img/icons.svg'; // parcel 1
 import icons from "url:../../img/icons.svg"; // parcel 2
 // any package import have to declare here - any import from npm no need to speicfy any path
@@ -10,10 +10,10 @@ import { Fraction } from "fractional";
 class RecipeView {
   // private fields
   // these two properties and render method are what all the views will have in common
-  #parentElement = document.querySelector(".recipe");
-  #data;
+  _parentElement = document.querySelector(".recipe");
+  _data;
   // the view itself now knows the msg to display
-  #errorMessage = "We could not find that recipe, please try another one!";
+  _errorMessage = "We could not find that recipe, please try another one!";
   #message = "";
 
   // Public render method part of public API - this will recieve data and will set this._data to the data it just recieved
